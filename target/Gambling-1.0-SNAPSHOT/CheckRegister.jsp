@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 
 <%
@@ -22,12 +22,7 @@
         password="123"
         url="jdbc:derby://localhost:1527/Gambling"
 />
-<%!
-    private void RegisterUser(String username, String password, String name)
-    {
 
-    }
-%>
 <html>
 <head>
     <title>Title</title>
@@ -71,8 +66,8 @@
                                     boolean isUserNameTaken = false;
                                 %>
 
-                                <c:forEach var="registeredUsername" items="${RegisteredUsers.rows}">
-                                    <c:if test="${registeredUsername.username eq param.username}">
+                                <c:forEach var="registeredUser" items="${RegisteredUsers.rows}">
+                                    <c:if test="${registeredUser.username eq param.username}">
                                     <%
                                         isUserNameTaken = true;
                                     %>
