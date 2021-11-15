@@ -71,7 +71,7 @@
                                     <%
                                         isUserNameTaken = true;
                                     %>
-                                    <%--break?!--%>
+                                    <%--TODO break?!--%>
                                     </c:if>
                                 </c:forEach>
 
