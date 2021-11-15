@@ -31,6 +31,14 @@
                 <tbody>
                 <tr>
                     <td>
+                        Név:
+                    </td>
+                    <td>
+                        <input type="text" size="20" name="name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         Felhasználónév:
                     </td>
                     <td>
