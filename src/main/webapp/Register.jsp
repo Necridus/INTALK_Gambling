@@ -20,12 +20,6 @@
 <h2>
     Regisztráció
 </h2>
-<c:choose>
-    <%--    <c:when test="${empty testDatabase}">--%>
-    <c:when test="${1 eq 2}">
-        <h1>Az adatbázis nem elérhető!</h1>
-    </c:when>
-    <c:otherwise>
         <form action="CheckRegister.jsp" method="post">
             <table>
                 <tbody>
@@ -57,8 +51,6 @@
             </table>
             <input type="submit" value="Regisztráció" name="register" style="cursor: pointer">
         </form>
-    </c:otherwise>
-</c:choose>
 
 Van már fiókja? <a href="Login.jsp">Jelentkezzen be</a>!
 
