@@ -20,7 +20,7 @@
         scope="application"
         user="Gambling"
         password="123"
-        url="jdbc:derby://localhost:1527/Gambling"
+        url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
 />
 <html>
 <head>
