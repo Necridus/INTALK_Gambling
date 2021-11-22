@@ -8,20 +8,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ page import="java.io.File" %>
 
 <%
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
+
+    File myFile = new File(application.getRealPath("/"));
+    String webRootPath = myFile.getParentFile().getParent().replace('\\', '/');
+    session.setAttribute("webRootPath", webRootPath);
 %>
 
 <sql:setDataSource
         var="DataSource"
-        driver="org.apache.derby.jdbc.ClientDriver"
+        driver="org.apache.derby.jdbc.EmbeddedDriver"
         scope="application"
-        user="Gambling"
-        password="123"
-        url="jdbc:derby://localhost:1527/Gambling"
+        url="jdbc:derby:${webRootPath}/Gambling_DataSource_Embedded"
 />
+
 <html>
 <head>
     <title>Title</title>
