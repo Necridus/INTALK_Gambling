@@ -8,12 +8,5 @@
       <jdbc-url>jdbc:derby:$PROJECT_DIR$/Gambling_DataSource_Embedded</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="Gambling_DataSource_Remote" uuid="1f346293-4457-45f5-8782-f63330c0ab47">
-      <driver-ref>derby.remote</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby://localhost:1527/Gambling_DataBase_Remote</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
   </component>
 </project>
