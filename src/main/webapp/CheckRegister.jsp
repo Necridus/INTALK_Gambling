@@ -22,6 +22,8 @@
 <sql:setDataSource
         var="DataSource"
         driver="org.apache.derby.jdbc.EmbeddedDriver"
+        user="Gambling"
+        password="123"
         scope="application"
         url="jdbc:derby:${webRootPath}/Gambling_DataSource_Embedded"
 />
