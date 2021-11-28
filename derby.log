@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sun Nov 28 21:19:16 UTC 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-017d-686a-98ca-0000075046c0 
+Sun Nov 28 21:34:55 UTC 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-017d-6878-ec03-000007508490 
 on database directory D:\Programming\JAVA apps\INTALK_Gambling\Gambling_DataSource_Embedded with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@69663380 
 Loaded from file:/C:/Users/kimme/AppData/Roaming/JetBrains/IntelliJIdea2021.2/jdbc-drivers/Apache%20Derby/10.15.2.0/derby-10.15.2.0.jar
 java.vendor=JetBrains s.r.o.
