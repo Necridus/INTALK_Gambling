@@ -13,7 +13,6 @@
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
 %>
-
 <sql:setDataSource
         var="DataSource"
         driver="org.apache.derby.jdbc.ClientDriver"
@@ -29,9 +28,10 @@
 </head>
 <body>
 <h1>Üdvözöllek <%= session.getAttribute("validUser")%>!</h1>
+<form action="CheckLogin.jsp" method="post">
+    <input type="submit" value="Kijelentkezés" name="logout">
+</form>
 <h2>Tedd meg a fogadásod!</h2>
-
-
 
 <sql:query var="ListMatches" dataSource="${DataSource}">
     SELECT * FROM APP."Matches"
@@ -39,6 +39,7 @@
 
 
 <form action="Result.jsp" method="post">
+    <p>Ekkora összeget szeretnék feltenni: <input type="number" name="bet"></p>
     <table>
         <tr style="font-weight: bold;">
             <td>Meccs dátuma</td>
@@ -65,8 +66,6 @@
 </form>
 
 
-<form action="CheckLogin.jsp" method="post">
-    <input type="submit" value="Kijelentkezés" name="logout">
-</form>
+
 </body>
 </html>
