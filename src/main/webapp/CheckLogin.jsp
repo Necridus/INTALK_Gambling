@@ -77,7 +77,6 @@
                                         session.setAttribute("isAdmin", isAdmin);
                                     %>
                                         ${isAdmin = registeredUser.IsAdmin}
-                                <jsp:forward page="PlaceBet.jsp"/>
                             </c:if>
 
                         </c:forEach>
