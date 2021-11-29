@@ -84,7 +84,6 @@
                                             <%
                                                 isUserNameTaken = true;
                                             %>
-                                            <%--TODO break?!--%>
                                             </c:if>
                                         </c:forEach>
 
