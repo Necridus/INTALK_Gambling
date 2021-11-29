@@ -78,6 +78,7 @@
                                         session.setAttribute("validPassword",request.getParameter("password"));
 //                                    TODO: ISADMIN
                                     %>
+                                <jsp:forward page="PlaceBet.jsp"/>
                                 <%--TODO break?!--%>
                             </c:if>
 
