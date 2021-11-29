@@ -21,12 +21,15 @@
 
 <sql:setDataSource
         var="DataSource"
-        driver="org.apache.derby.jdbc.EmbeddedDriver"
+        driver="org.apache.derby.jdbc.ClientDriver"
         user="Gambling"
         password="123"
         scope="application"
-        url="jdbc:derby:${webRootPath}/Gambling_DataSource_Embedded"
+        url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
+
 />
+<%--driver="org.apache.derby.jdbc.EmbeddedDriver"--%>
+<%--url="jdbc:derby:${webRootPath}/Gambling_DataSource_Embedded"--%>
 
 <html>
 <head>
