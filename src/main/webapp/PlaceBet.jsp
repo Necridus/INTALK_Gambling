@@ -39,13 +39,13 @@
 
 
 <form action="Result.jsp" method="post">
-    <p>Ekkora összeget szeretnék feltenni: <input type="number" name="bet"></p>
+    <p>Ekkora összeget szeretnék feltenni: <input type="number" name="bet" value="0"></p>
     <table>
         <tr style="font-weight: bold;">
             <td>Meccs dátuma</td>
-            <td>Első csapat neve</td>
-            <td>Második csapat neve</td>
-            <td>Eredmény</td>
+            <td>Hazai csapat neve</td>
+            <td>Vendég csapat neve</td>
+            <td>Nyer a hazai csapat?</td>
         </tr>
         <c:forEach var="listMatches" items="${ListMatches.rows}">
             <tr>
@@ -53,10 +53,7 @@
                 <td>${listMatches.FirstTeamName}</td>
                 <td>${listMatches.SecondTeamName}</td>
                 <td>
-                    <select name="result" id="result">
-                        <option value=1>${listMatches.FirstTeamName} nyer</option>
-                        <option value=2>${listMatches.SecondTeamName} nyer</option>
-                    </select>
+                    <input type="checkbox" name="selected[]" value="${listMatches.ID}"> ${listMatches.FirstTeamName} nyer
                 </td>
             </tr>
         </c:forEach>

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Arrays" %><%--
   Created by IntelliJ IDEA.
   User: Kata
   Date: 2021.11.28.
@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
@@ -41,10 +42,14 @@
     int pontok = 0;
     int penz = Integer.parseInt(request.getParameter("bet"));
     int nyeremeny = 0;
+    String[] selectedTeams = null;
+    boolean contains;
 %>
 
 <c:choose>
     <c:when test="${!empty param.placeBet}">
+        <% selectedTeams = request.getParameterValues("selected[]"); %>
+        <c:set var = "list" value="<%= selectedTeams %>"/>
         <table>
             <tr>
                 <td>Meccs dátuma</td>
@@ -79,36 +84,36 @@
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${param.result == 1}">
+                        <c:if test="${fn:contains(list, listMatches.ID)}">
                             ${listMatches.FirstTeamName} nyer
                         </c:if>
-                        <c:if test="${param.result == 2}">
+                        <c:if test="${!fn:contains(list, listMatches.ID)}">
                             ${listMatches.SecondTeamName} nyer
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${listMatches.FirstTeamWon && param.result == 1}">
+                        <c:if test="${listMatches.FirstTeamWon && fn:contains(list, listMatches.ID)}">
                             Nyertél
                             <%
                                 pontok++;
                                 nyeremeny = nyeremeny + penz;
                             %>
                         </c:if>
-                        <c:if test="${listMatches.FirstTeamWon && param.result == 2}">
+                        <c:if test="${listMatches.FirstTeamWon && !fn:contains(list, listMatches.ID)}">
                             Vesztettél
                             <%
                                 pontok--;
                                 nyeremeny = nyeremeny - penz;
                             %>
                         </c:if>
-                        <c:if test="${listMatches.SecondTeamWon && param.result == 2}">
+                        <c:if test="${listMatches.SecondTeamWon && !fn:contains(list, listMatches.ID)}">
                             Nyertél
                             <%
                                 pontok++;
                                 nyeremeny = nyeremeny + penz;
                             %>
                         </c:if>
-                        <c:if test="${listMatches.SecondTeamWon && param.result == 1}">
+                        <c:if test="${listMatches.SecondTeamWon && fn:contains(list, listMatches.ID)}">
                             Vesztettél
                             <%
                                 pontok--;
