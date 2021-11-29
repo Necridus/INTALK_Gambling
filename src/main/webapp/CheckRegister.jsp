@@ -27,8 +27,7 @@
         scope="application"
         url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
 />
-<%--driver="org.apache.derby.jdbc.EmbeddedDriver"--%>
-<%--url="jdbc:derby:${webRootPath}/Gambling_DataSource_Embedded"--%>
+
 <html>
 <head>
     <title>Regisztráció</title>
