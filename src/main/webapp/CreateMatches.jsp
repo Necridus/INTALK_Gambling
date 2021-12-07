@@ -16,15 +16,15 @@
 <sql:setDataSource
         var="DataSource"
         driver="org.apache.derby.jdbc.ClientDriver"
+        url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
+        scope="application"
         user="Gambling"
         password="123"
-        scope="application"
-        url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
 />
 
 <html>
 <head>
-    <title>Meccsek</title>
+    <title>Mérkőzések</title>
 </head>
 
 
@@ -37,7 +37,7 @@
     <h2>Meccsek hozzáadása vagy törlése</h2>
     <p><b><i>(Lehetőséged van focimeccsek hozzáadására vagy törlésére az ellenfelek, a győztes csapat és a meccs dátumának megadásával!)</i></b></p><br>
 
-    <form>
+    <form action="CheckCreateMatches.jsp" method="POST">
         <table>
             <tr>
                 <td>Hazai csapat</td>
@@ -47,18 +47,19 @@
                 <td>Vendég csapat</td>
                 <td><input type="textbox" name="guest" size="20"></td>
             </tr>
-            <tr style="height: 60px">
+            <tr>
                 <td>Ki lesz a győztes csapat?</td>
-                <td><label><input type="radio" name="win_home">Hazai csapat</label><br>
-                    <label><input type="radio" name="guest_home">Vendég csapat</label></td>
+                <td><label><input type="radio" name="win_home" value="false">Hazai csapat</label><br>
+                    <label><input type="radio" name="win_guest" value="false">Vendég csapat</label></td>
             </tr>
             <tr>
                 <td>Mérkőzés dátuma</td>
                 <td><input type="date" name="match_date"></td>
             </tr>
-            <tr style="height: 60px">
+            <tr>
                 <td><input type="submit" name="upload" value="Feltöltés"></td>
             </tr>
+
         </table>
     </form>
 </body>
