@@ -63,6 +63,13 @@
 
         </table>
     </form>
+
+    <c:if test="${!empty param.matchesErrorMsg}">
+        <hr>
+        <p>
+                ${param.matchesErrorMsg}
+        </p>
+    </c:if>
 </body>
 
 </html>
