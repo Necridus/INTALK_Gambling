@@ -184,6 +184,9 @@
             </c:forEach>
         </table>
     </form>
+    <form action="Result.jsp" method="post">
+        <input type="submit" value="Fogadás!" name="placeBet">
+    </form>
 </c:if>
 </body>
 </html>
