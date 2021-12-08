@@ -47,79 +47,91 @@
 
                 <c:choose>
 
-                    <c:when test="${!empty param.username && !empty param.password}">
+                    <c:when test="${!empty param.username && !empty param.password && !empty param.confirmpassword}">
 
                         <c:choose>
 
-                            <c:when test="${empty DataSource}">
-                                <h1>Az adatbázis nem elérhető!</h1>
-                                <a href="Register.jsp">Vissza</a>
-                            </c:when>
-
-                            <c:otherwise>
-                                <sql:query dataSource="${DataSource}" var="RegisteredUsers">
-                                    SELECT * FROM APP."Users"
-                                </sql:query>
+                            <c:when test="${param.username.length()>= 5
+                             && param.password.length() >= 5
+                             && param.username ne param.username.toLowerCase()
+                             && param.username ne param.username.toUpperCase()}">
 
                                 <c:choose>
-                                    <c:when test="${RegisteredUsers.rowCount eq 0}">
 
-                                        <sql:update dataSource="${DataSource}" var="InsertIntoUser">
-                                            INSERT INTO APP."Users" ("Name", "Username", "Password", "IsAdmin")
-                                            VALUES ('${param.name}', '${param.username}', '${param.password}', false)
-                                        </sql:update>
+                                    <c:when test="${param.password eq param.confirmpassword}">
+                                                <sql:query dataSource="${DataSource}" var="RegisteredUsers">
+                                                    SELECT * FROM APP."Users"
+                                                </sql:query>
 
-                                        <h1>Sikeres regisztráció!</h1>
-                                        <a href="Login.jsp">Tovább a bejelentkezéshez!</a>
+                                                <c:choose>
+                                                    <c:when test="${RegisteredUsers.rowCount eq 0}">
 
+                                                        <sql:update dataSource="${DataSource}" var="InsertIntoUser">
+                                                            INSERT INTO APP."Users" ("Name", "Username", "Password", "IsAdmin")
+                                                            VALUES ('${param.name}', '${param.username}', '${param.password}', false)
+                                                        </sql:update>
+
+                                                        <h1>Sikeres regisztráció!</h1>
+                                                        <a href="Login.jsp">Tovább a bejelentkezéshez!</a>
+
+                                                    </c:when>
+
+                                                    <c:otherwise>
+                                                        <%
+                                                            boolean isUserNameTaken = false;
+                                                        %>
+
+                                                        <c:forEach var="registeredUser" items="${RegisteredUsers.rows}">
+                                                            <c:if test="${registeredUser.username eq param.username}">
+                                                                <%
+                                                                    isUserNameTaken = true;
+                                                                %>
+                                                            </c:if>
+                                                        </c:forEach>
+
+                                                        <%
+                                                            session.setAttribute("isUserNameTaken",isUserNameTaken);
+                                                        %>
+
+                                                        <c:choose>
+
+                                                            <c:when test="${isUserNameTaken eq 'true'}">
+                                                                <jsp:forward page="Register.jsp">
+                                                                    <jsp:param name="registerErrorMsg" value="Már létező felhasználónév!"/>
+                                                                </jsp:forward>
+                                                            </c:when>
+
+                                                            <c:otherwise>
+
+                                                                <sql:update dataSource="${DataSource}" var="InsertIntoUser">
+                                                                    INSERT INTO APP."Users" ("Name", "Username", "Password", "IsAdmin")
+                                                                    VALUES ('${param.name}', '${param.username}', '${param.password}', false)
+                                                                </sql:update>
+
+                                                                <h1>Sikeres regisztráció!</h1>
+                                                                <a href="Login.jsp">Tovább a bejelentkezéshez!</a>
+                                                            </c:otherwise>
+
+                                                        </c:choose>
+
+                                                    </c:otherwise>
+
+                                                </c:choose>
                                     </c:when>
 
-                                    <c:otherwise>
-                                        <%
-                                            boolean isUserNameTaken = false;
-                                        %>
-
-                                        <c:forEach var="registeredUser" items="${RegisteredUsers.rows}">
-                                            <c:if test="${registeredUser.username eq param.username}">
-                                            <%
-                                                isUserNameTaken = true;
-                                            %>
-                                            </c:if>
-                                        </c:forEach>
-
-                                        <%
-                                            session.setAttribute("isUserNameTaken",isUserNameTaken);
-                                        %>
-
-                                        <c:choose>
-
-                                            <c:when test="${isUserNameTaken eq 'true'}">
-                                                <jsp:forward page="Register.jsp">
-                                                    <jsp:param name="registerErrorMsg" value="Már létező felhasználónév!"/>
-                                                </jsp:forward>
-                                            </c:when>
-
-                                            <c:otherwise>
-
-                                                <sql:update dataSource="${DataSource}" var="InsertIntoUser">
-                                                    INSERT INTO APP."Users" ("Name", "Username", "Password", "IsAdmin")
-                                                    VALUES ('${param.name}', '${param.username}', '${param.password}', false)
-                                                </sql:update>
-
-                                                <h1>Sikeres regisztráció!</h1>
-                                                <a href="Login.jsp">Tovább a bejelentkezéshez!</a>
-                                            </c:otherwise>
-
-                                        </c:choose>
-
-                                    </c:otherwise>
-
+                                <c:otherwise>
+                                    <jsp:forward page="Register.jsp">
+                                        <jsp:param name="registerErrorMsg" value="A jelszó és annak megerősítése nem egyezik!"/>
+                                    </jsp:forward>
+                                </c:otherwise>
                                 </c:choose>
-
+                            </c:when>
+                            <c:otherwise>
+                                <jsp:forward page="Register.jsp">
+                                    <jsp:param name="registerErrorMsg" value="A felhasználónév és a jelszó legalább 5 karakter hosszúak legyenek, továbbá a felhasználónév tartalmazzon legalább egy kis- és nagybetűt!"/>
+                                </jsp:forward>
                             </c:otherwise>
-
                         </c:choose>
-
                     </c:when>
 
                     <c:otherwise>
