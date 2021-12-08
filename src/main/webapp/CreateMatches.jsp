@@ -49,8 +49,9 @@
             </tr>
             <tr>
                 <td>Ki lesz a győztes csapat?</td>
-                <td><label><input type="radio" name="win_home" value="false">Hazai csapat</label><br>
-                    <label><input type="radio" name="win_guest" value="false">Vendég csapat</label></td>
+
+                <td><label><input type="radio" name="win_home">Hazai csapat</label><br>
+                    <label><input type="radio" name="win_guest">Vendég csapat</label></td>
             </tr>
             <tr>
                 <td>Mérkőzés dátuma</td>

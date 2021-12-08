@@ -49,7 +49,7 @@
 
                 <c:choose>
 
-                    <c:when test="${(!empty param.home) && (!empty param.guest) && (!empty param.win_home || !empty param.win_guest) && (!empty param.match_date)}">
+                    <c:when test="${!empty param.home} && ${!empty param.guest} && (${!empty param.win_home} || ${!empty param.win_guest}) && ${!empty param.match_date}">
 
                         <c:choose>
                             <c:when test="${empty DataSource}">
@@ -61,7 +61,7 @@
 
                                 <sql:update var="InsertIntoMatches" dataSource="${DataSource}">
                                     INSERT INTO APP."Matches" ("FirstTeamName", "SecondTeamName", "FirstTeamWon", "SecondTeamWon", "Date")
-                                    VALUES ('${param.home}', '${param.guest}', 'true', 'false', '${param.match_date}')
+                                    VALUES ('${param.home}', '${param.guest}', ${(param.win_home=="on"? "true" : "false")}, ${(param.win_guest=="on"? "true" : "false")}, '${param.match_date}')
                                 </sql:update>
 
                                 <h1>Sikeres feltöltés!</h1>
