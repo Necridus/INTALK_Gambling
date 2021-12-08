@@ -10,15 +10,6 @@
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ page import="java.io.File" %>
 
-<%
-    request.setCharacterEncoding("UTF-8");
-    response.setCharacterEncoding("UTF-8");
-
-    File myFile = new File(application.getRealPath("/"));
-    String webRootPath = myFile.getParentFile().getParent().replace('\\', '/');
-    session.setAttribute("webRootPath", webRootPath);
-%>
-
 <sql:setDataSource
         var="DataSource"
         driver="org.apache.derby.jdbc.ClientDriver"
@@ -49,7 +40,10 @@
 
                 <c:choose>
 
-                    <c:when test="${!empty param.home} && ${!empty param.guest} && (${!empty param.win_home} || ${!empty param.win_guest}) && ${!empty param.match_date}">
+                    <c:when test="${!empty param.home
+                     && !empty param.guest &&
+                      (!empty param.win_home || !empty param.win_guest)
+                       && !empty param.match_date}">
 
                         <c:choose>
                             <c:when test="${empty DataSource}">
