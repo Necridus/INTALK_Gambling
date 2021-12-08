@@ -10,15 +10,6 @@
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ page import="java.io.File" %>
 
-<%
-    request.setCharacterEncoding("UTF-8");
-    response.setCharacterEncoding("UTF-8");
-
-    File myFile = new File(application.getRealPath("/"));
-    String webRootPath = myFile.getParentFile().getParent().replace('\\', '/');
-    session.setAttribute("webRootPath", webRootPath);
-%>
-
 <sql:setDataSource
         var="DataSource"
         driver="org.apache.derby.jdbc.ClientDriver"
