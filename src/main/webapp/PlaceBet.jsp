@@ -31,38 +31,76 @@
 <form action="CheckLogin.jsp" method="post">
     <input type="submit" value="Kijelentkezés" name="logout">
 </form>
-<h2>Tedd meg a fogadásod!</h2>
 
 <sql:query var="ListMatches" dataSource="${DataSource}">
     SELECT * FROM APP."Matches"
 </sql:query>
 
+<c:if test="${param.matchId ne null}">
+    <sql:update dataSource="${DataSource}" var="InsertIntoBets">
+        INSERT INTO APP."Bets" ("Match_ID", "User_ID", "WinnerTeam", "BetValue")
+        VALUES (${param.matchId}, 1, 1, ${param.betValue})
+    </sql:update>
+</c:if>
 
-<form action="Result.jsp" method="post">
-    <p>Ekkora összeget szeretnék feltenni: <input type="number" name="bet" value="0"></p>
+<c:if test="${param.deleteId ne null}">
+    <sql:update dataSource="${DataSource}" var="InsertIntoBets">
+        DELETE FROM APP."Bets" WHERE ID = ${param.deleteId}
+    </sql:update>
+</c:if>
+
+<h2>Állítsd össze a szelvényed!</h2>
+
+<form action="PlaceBet.jsp" method="post">
+    <p>Felrakni kívánt összeg: <input type="number" value="500" name="betValue"> Ft</p>
+
+    <p>Elérhető meccsek listája: </p>
     <table>
         <tr style="font-weight: bold;">
             <td>Meccs dátuma</td>
             <td>Hazai csapat neve</td>
             <td>Vendég csapat neve</td>
-            <td>Nyer a hazai csapat?</td>
+            <td></td>
         </tr>
         <c:forEach var="listMatches" items="${ListMatches.rows}">
             <tr>
                 <td>${listMatches.Date}</td>
                 <td>${listMatches.FirstTeamName}</td>
                 <td>${listMatches.SecondTeamName}</td>
-                <td>
-                    <input type="checkbox" name="selected[]" value="${listMatches.ID}"> ${listMatches.FirstTeamName} nyer
-                </td>
+                <td><button name="matchId" id="matchId" value="${listMatches.ID}" type="submit">Hozzáadás</button></td>
             </tr>
         </c:forEach>
     </table>
-
-    <input type="submit" value="Fogadás" name="placeBet">
 </form>
 
+<c:if test="${param.matchId ne null || param.deleteId ne null}">
+    <sql:query var="ListBets" dataSource="${DataSource}">
+        SELECT APP."Bets"."ID", APP."Bets"."Match_ID", APP."Bets"."BetValue", APP."Matches"."Date", APP."Matches"."FirstTeamName", APP."Matches"."SecondTeamName"
+        FROM APP."Bets"
+        JOIN APP."Matches"
+        ON APP."Bets"."Match_ID" = APP."Matches"."ID"
+    </sql:query>
 
-
+    <p>Szelvényed:</p>
+    <form action="PlaceBet.jsp" method="post">
+        <table>
+            <tr style="font-weight: bold;">
+                <td>Meccs dátuma</td>
+                <td>Hazai csapat neve</td>
+                <td>Vendég csapat neve</td>
+                <td>Felrakott összeg</td>
+            </tr>
+            <c:forEach var="listBets" items="${ListBets.rows}">
+                <tr>
+                    <td>${listBets.Date}</td>
+                    <td>${listBets.FirstTeamName}</td>
+                    <td>${listBets.SecondTeamName}</td>
+                    <td>${listBets.BetValue}</td>
+                    <td><button name="deleteId" id="deleteId" value="${listBets.ID}" type="submit">Sor törlése</button></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </form>
+</c:if>
 </body>
 </html>

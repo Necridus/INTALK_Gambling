@@ -63,6 +63,7 @@
                 <td>Nyeremény</td>
             </tr>
             <c:forEach var="listMatches" items="${ListMatches.rows}">
+
                 <tr>
                     <td>${listMatches.Date}</td>
                     <td>${listMatches.FirstTeamName}</td>
