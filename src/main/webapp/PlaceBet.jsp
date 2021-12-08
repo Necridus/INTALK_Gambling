@@ -27,8 +27,24 @@
     <title>Fogadás</title>
 </head>
 <body>
+
+<%
+    if (session.getAttribute("validUser") == null) { %>
+        <jsp:forward page="Login.jsp">
+            <jsp:param name="loginErrorMsg" value="A játék előtt jelentkezz be!"/>
+        </jsp:forward>
+<% }
+%>
+
+<c:if test="${param.logout ne null}">
+    <jsp:forward page="Login.jsp">
+        <jsp:param name="loginErrorMsg" value="Sikeres kijelentkezés"/>
+    </jsp:forward>
+    <%session.invalidate();%>
+</c:if>
+
 <h1>Üdvözöllek <%= session.getAttribute("validUser")%>!</h1>
-<form action="CheckLogin.jsp" method="post">
+<form action="PlaceBet.jsp" method="post">
     <input type="submit" value="Kijelentkezés" name="logout">
 </form>
 
@@ -36,11 +52,22 @@
     SELECT * FROM APP."Matches"
 </sql:query>
 
+<sql:query var="GetValidUser" dataSource="${DataSource}">
+    SELECT APP."Users"."ID"
+    FROM APP."Users"
+    WHERE APP."Users"."Username" = '<%= session.getAttribute("validUser")%>'
+</sql:query>
+
+<c:forEach var="getValidUser" items="${GetValidUser.rows}">
+    <c:set var="validUser" value="${getValidUser.ID}"/>
+</c:forEach>
+
 <c:if test="${param.firstTeamWins ne null}">
     <sql:query var="CountMatches" dataSource="${DataSource}">
         SELECT COUNT(*) as NumberOfMatches
         FROM APP."Bets"
-        WHERE APP."Bets"."Match_ID" = ${param.firstTeamWins}
+        JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
+        WHERE APP."Users"."ID" = ${validUser} AND APP."Bets"."Match_ID" = ${param.firstTeamWins}
     </sql:query>
 
     <c:forEach var="countMatches" items="${CountMatches.rows}">
@@ -54,7 +81,7 @@
         <c:otherwise>
             <sql:update dataSource="${DataSource}" var="InsertIntoBets">
                 INSERT INTO APP."Bets" ("Match_ID", "User_ID", "WinnerTeam", "BetValue")
-                VALUES (${param.firstTeamWins}, 1, 1, ${param.betValue})
+                VALUES (${param.firstTeamWins}, ${validUser}, 1, ${param.betValue})
             </sql:update>
         </c:otherwise>
     </c:choose>
@@ -64,7 +91,8 @@
     <sql:query var="CountMatches" dataSource="${DataSource}">
         SELECT COUNT(*) as NumberOfMatches
         FROM APP."Bets"
-        WHERE APP."Bets"."Match_ID" = ${param.secondTeamWins}
+        JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
+        WHERE APP."Users"."ID" = ${validUser} AND APP."Bets"."Match_ID" = ${param.secondTeamWins}
     </sql:query>
 
     <c:forEach var="countMatches" items="${CountMatches.rows}">
@@ -78,7 +106,7 @@
         <c:otherwise>
             <sql:update dataSource="${DataSource}" var="InsertIntoBets">
                 INSERT INTO APP."Bets" ("Match_ID", "User_ID", "WinnerTeam", "BetValue")
-                VALUES (${param.secondTeamWins}, 1, 2, ${param.betValue})
+                VALUES (${param.secondTeamWins}, ${validUser}, 2, ${param.betValue})
             </sql:update>
         </c:otherwise>
     </c:choose>
@@ -88,7 +116,8 @@
     <sql:query var="CountMatches" dataSource="${DataSource}">
         SELECT COUNT(*) as NumberOfMatches
         FROM APP."Bets"
-        WHERE APP."Bets"."Match_ID" = ${param.draw}
+        JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
+        WHERE APP."Users"."ID" = ${validUser} AND APP."Bets"."Match_ID" = ${param.draw}
     </sql:query>
 
     <c:forEach var="countMatches" items="${CountMatches.rows}">
@@ -102,15 +131,21 @@
         <c:otherwise>
             <sql:update dataSource="${DataSource}" var="InsertIntoBets">
                 INSERT INTO APP."Bets" ("Match_ID", "User_ID", "WinnerTeam", "BetValue")
-                VALUES (${param.draw}, 1, 0, ${param.betValue})
+                VALUES (${param.draw}, ${validUser}, 0, ${param.betValue})
             </sql:update>
         </c:otherwise>
     </c:choose>
 </c:if>
 
 <c:if test="${param.deleteId ne null}">
-    <sql:update dataSource="${DataSource}" var="InsertIntoBets">
+    <sql:update dataSource="${DataSource}" var="DeleteFromBetsByID">
         DELETE FROM APP."Bets" WHERE ID = ${param.deleteId}
+    </sql:update>
+</c:if>
+
+<c:if test="${param.newGame ne null}">
+    <sql:update dataSource="${DataSource}" var="DeleteRowsFromBets">
+        DELETE FROM APP."Bets" WHERE APP."Bets"."User_ID" = ${validUser}
     </sql:update>
 </c:if>
 
@@ -146,8 +181,9 @@
     <sql:query var="ListBets" dataSource="${DataSource}">
         SELECT APP."Bets"."ID", APP."Bets"."Match_ID", APP."Bets"."BetValue", APP."Bets"."WinnerTeam", APP."Matches"."Date", APP."Matches"."FirstTeamName", APP."Matches"."SecondTeamName"
         FROM APP."Bets"
-        JOIN APP."Matches"
-        ON APP."Bets"."Match_ID" = APP."Matches"."ID"
+        JOIN APP."Matches" ON APP."Bets"."Match_ID" = APP."Matches"."ID"
+        JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
+        WHERE APP."Users"."ID" = ${validUser}
     </sql:query>
 
     <h2>Szelvényed:</h2>
