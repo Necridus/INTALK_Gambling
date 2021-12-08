@@ -39,6 +39,9 @@
                     <td>
                         <input type="text" size="20" name="username">
                     </td>
+                    <td>
+                        A felhasználónév legyen legalább 5 karakter hosszú és tartalmazzon legalább egy kis- és nagybetűt!
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -46,6 +49,17 @@
                     </td>
                     <td>
                         <input type="password" size="20" name="password">
+                    </td>
+                    <td>
+                        A jelszó legyen legalább 5 karakter hosszú!
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Jelszó megerősítése:
+                    </td>
+                    <td>
+                        <input type="password" size="20" name="confirmpassword">
                     </td>
                 </tr>
                 </tbody>
