@@ -230,7 +230,7 @@
                     </td>
                     <td>${listBets.BetValue}</td>
                     <td>
-                        <button name="deleteId" id="deleteId" value="${listBets.ID}" type="submit" class="btn btn-danger">Sor törlése</button>
+                        <button name="deleteId" id="deleteId" value="${listBets.ID}" type="submit" class="btn btn-danger">Törlés</button>
                     </td>
                 </tr>
             </c:forEach>
