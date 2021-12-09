@@ -100,10 +100,10 @@
                     <td>
                         <c:choose>
                             <c:when test="${listBetsAndMatches.FirstTeamWon == true}">
-                                ${listBetsAndMatches.FirstTeamName} nyer
+                                ${listBetsAndMatches.FirstTeamName}
                             </c:when>
                             <c:when test="${listBetsAndMatches.SecondTeamWon == true}">
-                                ${listBetsAndMatches.SecondTeamName} nyer
+                                ${listBetsAndMatches.SecondTeamName}
                             </c:when>
                             <c:when test="${listBetsAndMatches.Draw == true}">
                                 Döntetlen
@@ -113,7 +113,7 @@
                     <td>
                         <c:choose>
                             <c:when test="${listBetsAndMatches.WinnerTeam == 1}">
-                                ${listBetsAndMatches.FirstTeamName}
+                                ${listBetsAndMatches.FirstTeamName} nyer
                             </c:when>
                             <c:when test="${listBetsAndMatches.WinnerTeam == 2}">
                                 ${listBetsAndMatches.SecondTeamName} nyer
