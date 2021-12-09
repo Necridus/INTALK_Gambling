@@ -11,12 +11,12 @@
 <%@ page import="java.io.File" %>
 
 <sql:setDataSource
-        var="DataSource"
-        driver="org.apache.derby.jdbc.ClientDriver"
-        url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
-        scope="application"
-        user="Gambling"
-        password="123"
+    var="DataSource"
+    driver="org.apache.derby.jdbc.ClientDriver"
+    url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
+    scope="application"
+    user="Gambling"
+    password="123"
 />
 
 <html>

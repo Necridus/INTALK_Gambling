@@ -15,12 +15,12 @@
 %>
 
 <sql:setDataSource
-        var="DataSource"
-        driver="org.apache.derby.jdbc.ClientDriver"
-        url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
-        scope="application"
-        user="Gambling"
-        password="123"
+    var="DataSource"
+    driver="org.apache.derby.jdbc.ClientDriver"
+    url="jdbc:derby://localhost:1527/Gambling_DataBase_Remote"
+    scope="application"
+    user="Gambling"
+    password="123"
 />
 
 <sql:query var="ListMatches" dataSource="${DataSource}">
@@ -39,11 +39,25 @@
 </head>
 
 <body>
+    <% if (session.getAttribute("validUser") == null) { %>
+        <jsp:forward page="Login.jsp">
+        <jsp:param name="loginErrorMsg" value="A mérkőzések kezeléséhez jelentkezz be!"/>
+        </jsp:forward>
+    <% } %>
+
+    <c:if test="${param.logout ne null}">
+        <jsp:forward page="Login.jsp">
+            <jsp:param name="loginErrorMsg" value="Sikeres kijelentkezés"/>
+        </jsp:forward>
+        <%session.invalidate();%>
+    </c:if>
+
     <h1>Üdvözöllek <%= session.getAttribute("validUser")%>!</h1>
-    <form action="Login.jsp" method="post">
+    <form action="CreateMatches.jsp" method="post">
         <input type="submit" value="Kijelentkezés" name="logout">
     </form>
     <br>
+
     <h2>Mérkőzések hozzáadása vagy törlése</h2>
     <p><b><i>(Lehetőséged van focimeccsek hozzáadására vagy törlésére az ellenfelek, a győztes csapat és a meccs dátumának megadásával!)</i></b></p><br>
 
@@ -59,7 +73,6 @@
             </tr>
             <tr>
                 <td>Ki lesz a győztes csapat?</td>
-
                 <td>
                     <label><input type="radio" name="win" value="1">Hazai csapat</label><br>
                     <label><input type="radio" name="win" value="2">Vendég csapat</label><br>
@@ -76,14 +89,13 @@
         </table>
     </form>
 
-        <c:if test="${!empty param.matchesErrorMsg}">
-            <hr>
-            <p>
-                    ${param.matchesErrorMsg}
-            </p>
-        </c:if>
+    <c:if test="${!empty param.matchesErrorMsg}">
+        <p style="color:red; font-weight:bold">
+            ${param.matchesErrorMsg}
+        </p>
+    </c:if>
 
-        <h2>Mérkőzések listája: </h2>
+    <h2>Mérkőzések listája: </h2>
 
     <form action="CreateMatches.jsp" method="post">
         <table>
@@ -91,6 +103,7 @@
                 <td>Meccs dátuma</td>
                 <td>Hazai csapat</td>
                 <td>Vendég csapat</td>
+                <td>Győztes csapat</td>
                 <td>Mérkőzés törlése</td>
             </tr>
             <c:forEach var="listMatches" items="${ListMatches.rows}">
@@ -98,11 +111,21 @@
                     <td>${listMatches.Date}</td>
                     <td>${listMatches.FirstTeamName}</td>
                     <td>${listMatches.SecondTeamName}</td>
+                    <td>
+                        <c:if test="${listMatches.FirstTeamWon == true}">
+                            ${listMatches.FirstTeamName}
+                        </c:if>
+                        <c:if test="${listMatches.SecondTeamWon == true}">
+                            ${listMatches.SecondTeamName}
+                        </c:if>
+                        <c:if test="${listMatches.Draw == true}">
+                            Döntetlen
+                        </c:if>
+                    </td>
                     <td><button name="deleteId" id="deleteId" value="${listMatches.ID}" type="submit">Törlés</button></td>
                 </tr>
             </c:forEach>
         </table>
     </form>
 </body>
-
 </html>
