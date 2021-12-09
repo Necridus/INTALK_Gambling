@@ -41,9 +41,17 @@
 <% }
 %>
 
+<%
+    if (session.getAttribute("isAdmin") == null || session.getAttribute("isAdmin").toString().equals("true")) { %>
+        <jsp:forward page="Login.jsp">
+        <jsp:param name="loginErrorMsg" value="Nem megfelelő jogosultsággal próbáltál belépni!"/>
+        </jsp:forward>
+    <% }
+%>
+
 <c:if test="${param.logout ne null}">
     <jsp:forward page="Login.jsp">
-        <jsp:param name="loginErrorMsg" value="Sikeres kijelentkezés"/>
+        <jsp:param name="logoutMsg" value="Sikeres kijelentkezés"/>
     </jsp:forward>
     <%session.invalidate();%>
 </c:if>
@@ -86,7 +94,7 @@
                 <td>Meccs dátuma</td>
                 <td>Első csapat neve</td>
                 <td>Második csapat neve</td>
-                <td>Meccs eredménye</td>
+                <td>Győztes csapat</td>
                 <td>Tipped</td>
                 <td>Felrakott összeg</td>
                 <td>Tippedért kapott összeg</td>
@@ -100,10 +108,10 @@
                     <td>
                         <c:choose>
                             <c:when test="${listBetsAndMatches.FirstTeamWon == true}">
-                                ${listBetsAndMatches.FirstTeamName} nyer
+                                ${listBetsAndMatches.FirstTeamName}
                             </c:when>
                             <c:when test="${listBetsAndMatches.SecondTeamWon == true}">
-                                ${listBetsAndMatches.SecondTeamName} nyer
+                                ${listBetsAndMatches.SecondTeamName}
                             </c:when>
                             <c:when test="${listBetsAndMatches.Draw == true}">
                                 Döntetlen
@@ -113,10 +121,10 @@
                     <td>
                         <c:choose>
                             <c:when test="${listBetsAndMatches.WinnerTeam == 1}">
-                                ${listBetsAndMatches.FirstTeamName} nyert
+                                ${listBetsAndMatches.FirstTeamName} nyer
                             </c:when>
                             <c:when test="${listBetsAndMatches.WinnerTeam == 2}">
-                                ${listBetsAndMatches.SecondTeamName} nyert
+                                ${listBetsAndMatches.SecondTeamName} nyer
                             </c:when>
                             <c:when test="${listBetsAndMatches.WinnerTeam == 0}">
                                 Döntetlen

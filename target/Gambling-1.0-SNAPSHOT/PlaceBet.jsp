@@ -169,7 +169,7 @@
 
     <h3 class="fw-bold">Elérhető meccsek listája: </h3>
     <div class="row justify-content-center">
-    <table class="table table-borderless table-striped w-75 mt-4 mb-4 text-center">
+    <table class="table table-borderless table-striped ms-2 me-2 mt-4 mb-4 text-center">
         <tr class="fw-bold">
             <td>Meccs dátuma</td>
             <td>Hazai csapat neve</td>
@@ -181,10 +181,10 @@
                 <td>${listMatches.Date}</td>
                 <td>${listMatches.FirstTeamName}</td>
                 <td>${listMatches.SecondTeamName}</td>
-                <td>
-                    <button name="firstTeamWins" id="firstTeamWins" value="${listMatches.ID}" type="submit" class="btn btn-light">${listMatches.FirstTeamName}</button>
-                    <button name="draw" id="draw" value="${listMatches.ID}" type="submit" class="btn btn-dark">Döntetlen</button>
-                    <button name="secondTeamWins" id="secondTeamWins" value="${listMatches.ID}" type="submit" class="btn btn-light">${listMatches.SecondTeamName}</button>
+                <td class="justify-content-center">
+                    <button name="firstTeamWins" id="firstTeamWins" value="${listMatches.ID}" type="submit" class="btn btn-light customButtonWidth">${listMatches.FirstTeamName}</button>
+                    <button name="draw" id="draw" value="${listMatches.ID}" type="submit" class="btn btn-dark customButtonWidth">Döntetlen</button>
+                    <button name="secondTeamWins" id="secondTeamWins" value="${listMatches.ID}" type="submit" class="btn btn-light customButtonWidth">${listMatches.SecondTeamName}</button>
                 </td>
             </tr>
         </c:forEach>
@@ -230,7 +230,7 @@
                     </td>
                     <td>${listBets.BetValue}</td>
                     <td>
-                        <button name="deleteId" id="deleteId" value="${listBets.ID}" type="submit" class="btn btn-danger">Sor törlése</button>
+                        <button name="deleteId" id="deleteId" value="${listBets.ID}" type="submit" class="btn btn-danger">Törlés</button>
                     </td>
                 </tr>
             </c:forEach>
