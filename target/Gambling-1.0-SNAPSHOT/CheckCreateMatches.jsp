@@ -58,6 +58,8 @@
                                     VALUES ('${param.home}', '${param.guest}', ${(param.win=="1"? "true" : "false")}, ${(param.win=="2"? "true" : "false")}, ${(param.win=="3"? "true" : "false")}, '${param.match_date}')
                                 </sql:update>
 
+                                <jsp:forward page="CreateMatches.jsp"/>
+
                             </c:otherwise>
 
                         </c:choose>
@@ -66,7 +68,7 @@
 
                     <c:otherwise>
                         <jsp:forward page="CreateMatches.jsp">
-                            <jsp:param name="matchesErrorMsg" value="Kérem adjon meg minden szükséges információt!"/>
+                            <jsp:param name="matchesErrorMsg" value="Kérlek, adj meg minden szükséges információt!"/>
                         </jsp:forward>
                     </c:otherwise>
 

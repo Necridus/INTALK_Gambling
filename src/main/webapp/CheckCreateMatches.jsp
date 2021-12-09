@@ -68,7 +68,7 @@
 
                     <c:otherwise>
                         <jsp:forward page="CreateMatches.jsp">
-                            <jsp:param name="matchesErrorMsg" value="Kérem adjon meg minden szükséges információt!"/>
+                            <jsp:param name="matchesErrorMsg" value="Kérlek, adj meg minden szükséges információt!"/>
                         </jsp:forward>
                     </c:otherwise>
 
