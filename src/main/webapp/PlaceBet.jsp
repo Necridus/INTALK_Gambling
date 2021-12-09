@@ -27,8 +27,24 @@
     <title>Fogadás</title>
 </head>
 <body>
+
+<%
+    if (session.getAttribute("validUser") == null) { %>
+        <jsp:forward page="Login.jsp">
+            <jsp:param name="loginErrorMsg" value="A játék előtt jelentkezz be!"/>
+        </jsp:forward>
+<% }
+%>
+
+<c:if test="${param.logout ne null}">
+    <jsp:forward page="Login.jsp">
+        <jsp:param name="loginErrorMsg" value="Sikeres kijelentkezés"/>
+    </jsp:forward>
+    <%session.invalidate();%>
+</c:if>
+
 <h1>Üdvözöllek <%= session.getAttribute("validUser")%>!</h1>
-<form action="CheckLogin.jsp" method="post">
+<form action="PlaceBet.jsp" method="post">
     <input type="submit" value="Kijelentkezés" name="logout">
 </form>
 
@@ -36,16 +52,100 @@
     SELECT * FROM APP."Matches"
 </sql:query>
 
-<c:if test="${param.matchId ne null}">
-    <sql:update dataSource="${DataSource}" var="InsertIntoBets">
-        INSERT INTO APP."Bets" ("Match_ID", "User_ID", "WinnerTeam", "BetValue")
-        VALUES (${param.matchId}, 1, 1, ${param.betValue})
-    </sql:update>
+<sql:query var="GetValidUser" dataSource="${DataSource}">
+    SELECT APP."Users"."ID"
+    FROM APP."Users"
+    WHERE APP."Users"."Username" = '<%= session.getAttribute("validUser")%>'
+</sql:query>
+
+<c:forEach var="getValidUser" items="${GetValidUser.rows}">
+    <c:set var="validUser" value="${getValidUser.ID}"/>
+</c:forEach>
+
+<c:if test="${param.firstTeamWins ne null}">
+    <sql:query var="CountMatches" dataSource="${DataSource}">
+        SELECT COUNT(*) as NumberOfMatches
+        FROM APP."Bets"
+        JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
+        WHERE APP."Users"."ID" = ${validUser} AND APP."Bets"."Match_ID" = ${param.firstTeamWins}
+    </sql:query>
+
+    <c:forEach var="countMatches" items="${CountMatches.rows}">
+        <c:set var="numberOfMatches" value="${countMatches.NumberOfMatches}"/>
+    </c:forEach>
+
+    <c:choose>
+        <c:when test="${numberOfMatches > 0}">
+            <h2 style="color: red;">Ezt a meccset már hozzáadtad a szelvényedhez!</h2>
+        </c:when>
+        <c:otherwise>
+            <sql:update dataSource="${DataSource}" var="InsertIntoBets">
+                INSERT INTO APP."Bets" ("Match_ID", "User_ID", "WinnerTeam", "BetValue")
+                VALUES (${param.firstTeamWins}, ${validUser}, 1, ${param.betValue})
+            </sql:update>
+        </c:otherwise>
+    </c:choose>
+</c:if>
+
+<c:if test="${param.secondTeamWins ne null}">
+    <sql:query var="CountMatches" dataSource="${DataSource}">
+        SELECT COUNT(*) as NumberOfMatches
+        FROM APP."Bets"
+        JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
+        WHERE APP."Users"."ID" = ${validUser} AND APP."Bets"."Match_ID" = ${param.secondTeamWins}
+    </sql:query>
+
+    <c:forEach var="countMatches" items="${CountMatches.rows}">
+        <c:set var="numberOfMatches" value="${countMatches.NumberOfMatches}"/>
+    </c:forEach>
+
+    <c:choose>
+        <c:when test="${numberOfMatches > 0}">
+            <h2 style="color: red;">Ezt a meccset már hozzáadtad a szelvényedhez!</h2>
+        </c:when>
+        <c:otherwise>
+            <sql:update dataSource="${DataSource}" var="InsertIntoBets">
+                INSERT INTO APP."Bets" ("Match_ID", "User_ID", "WinnerTeam", "BetValue")
+                VALUES (${param.secondTeamWins}, ${validUser}, 2, ${param.betValue})
+            </sql:update>
+        </c:otherwise>
+    </c:choose>
+</c:if>
+
+<c:if test="${param.draw ne null}">
+    <sql:query var="CountMatches" dataSource="${DataSource}">
+        SELECT COUNT(*) as NumberOfMatches
+        FROM APP."Bets"
+        JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
+        WHERE APP."Users"."ID" = ${validUser} AND APP."Bets"."Match_ID" = ${param.draw}
+    </sql:query>
+
+    <c:forEach var="countMatches" items="${CountMatches.rows}">
+        <c:set var="numberOfMatches" value="${countMatches.NumberOfMatches}"/>
+    </c:forEach>
+
+    <c:choose>
+        <c:when test="${numberOfMatches > 0}">
+            <h2 style="color: red;">Ezt a meccset már hozzáadtad a szelvényedhez!</h2>
+        </c:when>
+        <c:otherwise>
+            <sql:update dataSource="${DataSource}" var="InsertIntoBets">
+                INSERT INTO APP."Bets" ("Match_ID", "User_ID", "WinnerTeam", "BetValue")
+                VALUES (${param.draw}, ${validUser}, 0, ${param.betValue})
+            </sql:update>
+        </c:otherwise>
+    </c:choose>
 </c:if>
 
 <c:if test="${param.deleteId ne null}">
-    <sql:update dataSource="${DataSource}" var="InsertIntoBets">
+    <sql:update dataSource="${DataSource}" var="DeleteFromBetsByID">
         DELETE FROM APP."Bets" WHERE ID = ${param.deleteId}
+    </sql:update>
+</c:if>
+
+<c:if test="${param.newGame ne null}">
+    <sql:update dataSource="${DataSource}" var="DeleteRowsFromBets">
+        DELETE FROM APP."Bets" WHERE APP."Bets"."User_ID" = ${validUser}
     </sql:update>
 </c:if>
 
@@ -60,34 +160,40 @@
             <td>Meccs dátuma</td>
             <td>Hazai csapat neve</td>
             <td>Vendég csapat neve</td>
-            <td></td>
+            <td>Melyik csapat nyer?</td>
         </tr>
         <c:forEach var="listMatches" items="${ListMatches.rows}">
             <tr>
                 <td>${listMatches.Date}</td>
                 <td>${listMatches.FirstTeamName}</td>
                 <td>${listMatches.SecondTeamName}</td>
-                <td><button name="matchId" id="matchId" value="${listMatches.ID}" type="submit">Hozzáadás</button></td>
+                <td>
+                    <button name="firstTeamWins" id="firstTeamWins" value="${listMatches.ID}" type="submit">${listMatches.FirstTeamName}</button>
+                    <button name="secondTeamWins" id="secondTeamWins" value="${listMatches.ID}" type="submit">${listMatches.SecondTeamName}</button>
+                    <button name="draw" id="draw" value="${listMatches.ID}" type="submit">Döntetlen</button>
+                </td>
             </tr>
         </c:forEach>
     </table>
 </form>
 
-<c:if test="${param.matchId ne null || param.deleteId ne null}">
+<c:if test="${(param.firstTeamWins ne null || param.secondTeamWins ne null || param.draw ne null) || param.deleteId ne null}">
     <sql:query var="ListBets" dataSource="${DataSource}">
-        SELECT APP."Bets"."ID", APP."Bets"."Match_ID", APP."Bets"."BetValue", APP."Matches"."Date", APP."Matches"."FirstTeamName", APP."Matches"."SecondTeamName"
+        SELECT APP."Bets"."ID", APP."Bets"."Match_ID", APP."Bets"."BetValue", APP."Bets"."WinnerTeam", APP."Matches"."Date", APP."Matches"."FirstTeamName", APP."Matches"."SecondTeamName"
         FROM APP."Bets"
-        JOIN APP."Matches"
-        ON APP."Bets"."Match_ID" = APP."Matches"."ID"
+        JOIN APP."Matches" ON APP."Bets"."Match_ID" = APP."Matches"."ID"
+        JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
+        WHERE APP."Users"."ID" = ${validUser}
     </sql:query>
 
-    <p>Szelvényed:</p>
+    <h2>Szelvényed:</h2>
     <form action="PlaceBet.jsp" method="post">
         <table>
             <tr style="font-weight: bold;">
                 <td>Meccs dátuma</td>
                 <td>Hazai csapat neve</td>
                 <td>Vendég csapat neve</td>
+                <td>Melyik csapat fog nyerni?</td>
                 <td>Felrakott összeg</td>
             </tr>
             <c:forEach var="listBets" items="${ListBets.rows}">
@@ -95,11 +201,27 @@
                     <td>${listBets.Date}</td>
                     <td>${listBets.FirstTeamName}</td>
                     <td>${listBets.SecondTeamName}</td>
+                    <td>
+                        <c:if test="${listBets.WinnerTeam == 1}">
+                            ${listBets.FirstTeamName} nyer
+                        </c:if>
+                        <c:if test="${listBets.WinnerTeam == 2}">
+                            ${listBets.SecondTeamName} nyer
+                        </c:if>
+                        <c:if test="${listBets.WinnerTeam == 0}">
+                            Döntetlen
+                        </c:if>
+                    </td>
                     <td>${listBets.BetValue}</td>
-                    <td><button name="deleteId" id="deleteId" value="${listBets.ID}" type="submit">Sor törlése</button></td>
+                    <td>
+                        <button name="deleteId" id="deleteId" value="${listBets.ID}" type="submit">Sor törlése</button>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
+    </form>
+    <form action="Result.jsp" method="post">
+        <input type="submit" value="Fogadás!" name="placeBet">
     </form>
 </c:if>
 </body>

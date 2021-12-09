@@ -1,8 +1,27 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
+/*table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*}*/
+
+/*table, tr, td {*/
+/*    border: 1px solid black;*/
+/*}*/
+.bodyBackground{
+    background-image: url("images/background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
 }
 
-table, tr, td {
-    border: 1px solid black;
+.fontFormat{
+    font-family: Arial, sans-serif;
+}
+
+.customContainer{
+    margin-top: 10%;
+    padding: 2%;
+    background: #c6c292;
+    margin-left: 30%;
+    margin-right: 25%;
+    backdrop-filter: blur(30px);
 }
