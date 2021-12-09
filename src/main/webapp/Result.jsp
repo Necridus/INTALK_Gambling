@@ -163,11 +163,11 @@
         </table>
     </div>
         <h2 class="fw-bold">
-            Végső egyenleged: <span class="fw-bolder text-info"> ${nyeremeny} Ft</span>
+            Végső egyenleged: <span class="fw-bolder text-primary"> ${nyeremeny} Ft</span>
         </h2>
 
         <form action="PlaceBet.jsp" method="post">
-            <input type="submit" name="newGame" value="Új játék!">
+            <input type="submit" name="newGame" value="Új játék!" class="btn btn-primary">
         </form>
     </c:when>
 </c:choose>

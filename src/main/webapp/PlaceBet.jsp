@@ -188,7 +188,7 @@
     <sql:query var="ListBets" dataSource="${DataSource}">
         SELECT APP."Bets"."ID", APP."Bets"."Match_ID", APP."Bets"."BetValue", APP."Bets"."WinnerTeam", APP."Matches"."Date", APP."Matches"."FirstTeamName", APP."Matches"."SecondTeamName"
         FROM APP."Bets"
-        JOIN APP."Matches" ON APP."Bets"."Match_I " = APP."Matches"."ID"
+        JOIN APP."Matches" ON APP."Bets"."Match_ID" = APP."Matches"."ID"
         JOIN APP."Users" ON APP."Bets"."User_ID" = APP."Users"."ID"
         WHERE APP."Users"."ID" = ${validUser}
     </sql:query>
