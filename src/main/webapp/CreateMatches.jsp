@@ -31,6 +31,10 @@
     <sql:update dataSource="${DataSource}" var="InsertIntoMatches">
         DELETE FROM APP."Matches" WHERE ID = ${param.deleteId}
     </sql:update>
+
+    <sql:query var="ListMatches" dataSource="${DataSource}">
+        SELECT * FROM APP."Matches"
+    </sql:query>
 </c:if>
 
 <html>
