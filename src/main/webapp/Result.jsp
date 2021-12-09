@@ -86,7 +86,7 @@
                 <td>Meccs dátuma</td>
                 <td>Első csapat neve</td>
                 <td>Második csapat neve</td>
-                <td>Meccs eredménye</td>
+                <td>Győztes csapat</td>
                 <td>Tipped</td>
                 <td>Felrakott összeg</td>
                 <td>Tippedért kapott összeg</td>
@@ -116,7 +116,7 @@
                                 ${listBetsAndMatches.FirstTeamName}
                             </c:when>
                             <c:when test="${listBetsAndMatches.WinnerTeam == 2}">
-                                ${listBetsAndMatches.SecondTeamName}
+                                ${listBetsAndMatches.SecondTeamName} nyer
                             </c:when>
                             <c:when test="${listBetsAndMatches.WinnerTeam == 0}">
                                 Döntetlen
