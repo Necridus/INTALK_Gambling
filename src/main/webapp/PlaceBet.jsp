@@ -181,10 +181,10 @@
                 <td>${listMatches.Date}</td>
                 <td>${listMatches.FirstTeamName}</td>
                 <td>${listMatches.SecondTeamName}</td>
-                <td>
-                    <button name="firstTeamWins" id="firstTeamWins" value="${listMatches.ID}" type="submit" class="btn btn-light">${listMatches.FirstTeamName}</button>
-                    <button name="draw" id="draw" value="${listMatches.ID}" type="submit" class="btn btn-dark">Döntetlen</button>
-                    <button name="secondTeamWins" id="secondTeamWins" value="${listMatches.ID}" type="submit" class="btn btn-light">${listMatches.SecondTeamName}</button>
+                <td class="justify-content-center">
+                    <button name="firstTeamWins" id="firstTeamWins" value="${listMatches.ID}" type="submit" class="btn btn-light w-25">${listMatches.FirstTeamName}</button>
+                    <button name="draw" id="draw" value="${listMatches.ID}" type="submit" class="btn btn-dark w-25">Döntetlen</button>
+                    <button name="secondTeamWins" id="secondTeamWins" value="${listMatches.ID}" type="submit" class="btn btn-light w-25">${listMatches.SecondTeamName}</button>
                 </td>
             </tr>
         </c:forEach>
