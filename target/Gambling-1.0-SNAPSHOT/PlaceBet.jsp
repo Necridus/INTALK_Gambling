@@ -41,9 +41,17 @@
 <% }
 %>
 
+<%
+        if (session.getAttribute("isAdmin") == null || session.getAttribute("isAdmin").toString().equals("true")) { %>
+            <jsp:forward page="Login.jsp">
+                <jsp:param name="loginErrorMsg" value="Nem megfelelő jogosultsággal próbáltál belépni!"/>
+            </jsp:forward>
+        <% }
+%>
+
 <c:if test="${param.logout ne null}">
     <jsp:forward page="Login.jsp">
-        <jsp:param name="loginErrorMsg" value="Sikeres kijelentkezés"/>
+        <jsp:param name="logoutMsg" value="Sikeres kijelentkezés"/>
     </jsp:forward>
     <%session.invalidate();%>
 </c:if>
@@ -202,7 +210,7 @@
                 <td>Hazai csapat neve</td>
                 <td>Vendég csapat neve</td>
                 <td>Melyik csapat fog nyerni?</td>
-                <td colspan="2">Felrakott összeg</td>
+                <td>Felrakott összeg</td>
             </tr>
             <c:forEach var="listBets" items="${ListBets.rows}">
                 <tr>

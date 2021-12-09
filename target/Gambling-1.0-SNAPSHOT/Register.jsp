@@ -29,48 +29,48 @@
     </h2>
         <form action="CheckRegister.jsp" method="post">
             <div class="row justify-content-center">
-            <table class="table table-borderless table-sm ms-5">
+            <table class="table table-borderless table-sm">
                 <tbody>
                 <tr>
-                    <td class="w-25 fw-bold pt-3 text-end">
+                    <td class="w-50 fw-bold pt-3 text-end">
                         E-mail cím:
                     </td>
                     <td>
-                        <input type="email" size="50" name="email" class="rounded-2 p-2">
+                        <input type="email" name="email" class="w-75 rounded-2 p-2">
                     </td>
                 </tr>
                 <tr>
-                    <td class="w-25 fw-bold pt-3 text-end">
+                    <td class="w-50 fw-bold pt-3 text-end">
                         Felhasználónév:
                     </td>
                     <td>
-                        <input type="text" size="50" name="username" class="rounded-2 p-2">
+                        <input type="text" name="username" class="w-75 rounded-2 p-2">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="fst-italic">
+                    <td colspan="2" class="fst-italic text-center">
                         A felhasználónév legyen legalább 5 karakter hosszú és tartalmazzon legalább egy kis- és nagybetűt!
                     </td>
                 </tr>
                 <tr>
-                    <td class="w-25 fw-bold pt-3 text-end">
+                    <td class="w-50 fw-bold pt-3 text-end">
                         Jelszó:
                     </td>
                     <td>
-                        <input type="password" size="50" name="password" class="rounded-2 p-2">
+                        <input type="password" name="password" class="w-75 rounded-2 p-2">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="fst-italic">
+                    <td colspan="2" class="fst-italic text-center">
                         A jelszó legyen legalább 5 karakter hosszú!
                     </td>
                 </tr>
                 <tr>
-                    <td class="w-25 fw-bold pt-3 text-end">
+                    <td class="w-50 fw-bold pt-3 text-end">
                         Jelszó megerősítése:
                     </td>
                     <td>
-                        <input type="password" size="50" name="confirmpassword" class="rounded-2 p-2">
+                        <input type="password" name="confirmpassword" class="w-75  rounded-2 p-2">
                     </td>
                 </tr>
                 </tbody>

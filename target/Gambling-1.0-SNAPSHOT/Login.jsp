@@ -11,6 +11,10 @@
 <%
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
+
+    session.removeAttribute("validUser");
+    session.removeAttribute("validPassword");
+    session.removeAttribute("isAdmin");
 %>
 
 <html>
@@ -59,6 +63,11 @@
             ${param.loginErrorMsg}
     </p>
 </c:if>
+    <c:if test="${!empty param.logoutMsg}">
+        <p class="text-success fw-bold">
+                ${param.logoutMsg}
+        </p>
+    </c:if>
 </div>
 </body>
 </html>

@@ -22,6 +22,26 @@
     user="Gambling"
     password="123"
 />
+<% if (session.getAttribute("validUser") == null) { %>
+<jsp:forward page="Login.jsp">
+    <jsp:param name="loginErrorMsg" value="A mérkőzések kezeléséhez jelentkezz be!"/>
+</jsp:forward>
+<% } %>
+
+<%
+    if (session.getAttribute("isAdmin") == null || session.getAttribute("isAdmin").toString().equals("false")) { %>
+<jsp:forward page="Login.jsp">
+    <jsp:param name="loginErrorMsg" value="Nem megfelelő jogosultsággal próbáltál belépni!"/>
+</jsp:forward>
+<% }
+%>
+
+<c:if test="${param.logout ne null}">
+    <jsp:forward page="Login.jsp">
+        <jsp:param name="logoutMsg" value="Sikeres kijelentkezés"/>
+    </jsp:forward>
+    <%session.invalidate();%>
+</c:if>
 
 <sql:query var="ListMatches" dataSource="${DataSource}">
     SELECT * FROM APP."Matches"
@@ -48,18 +68,6 @@
 </head>
 <body class="text-center fontFormat bodyBackground">
 <div class="customWideContainer justify-content-center col-10 rounded-3">
-    <% if (session.getAttribute("validUser") == null) { %>
-        <jsp:forward page="Login.jsp">
-        <jsp:param name="loginErrorMsg" value="A mérkőzések kezeléséhez jelentkezz be!"/>
-        </jsp:forward>
-    <% } %>
-
-    <c:if test="${param.logout ne null}">
-        <jsp:forward page="Login.jsp">
-            <jsp:param name="loginErrorMsg" value="Sikeres kijelentkezés"/>
-        </jsp:forward>
-        <%session.invalidate();%>
-    </c:if>
 
     <h1 class="fw-bold">Üdvözöllek <%= session.getAttribute("validUser")%>!</h1>
     <form action="CreateMatches.jsp" method="post">

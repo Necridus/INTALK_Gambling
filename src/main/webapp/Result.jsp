@@ -41,9 +41,17 @@
 <% }
 %>
 
+<%
+    if (session.getAttribute("isAdmin") == null || session.getAttribute("isAdmin").toString().equals("true")) { %>
+        <jsp:forward page="Login.jsp">
+        <jsp:param name="loginErrorMsg" value="Nem megfelelő jogosultsággal próbáltál belépni!"/>
+        </jsp:forward>
+    <% }
+%>
+
 <c:if test="${param.logout ne null}">
     <jsp:forward page="Login.jsp">
-        <jsp:param name="loginErrorMsg" value="Sikeres kijelentkezés"/>
+        <jsp:param name="logoutMsg" value="Sikeres kijelentkezés"/>
     </jsp:forward>
     <%session.invalidate();%>
 </c:if>
