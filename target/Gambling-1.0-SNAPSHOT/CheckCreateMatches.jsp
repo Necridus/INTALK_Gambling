@@ -58,6 +58,8 @@
                                     VALUES ('${param.home}', '${param.guest}', ${(param.win=="1"? "true" : "false")}, ${(param.win=="2"? "true" : "false")}, ${(param.win=="3"? "true" : "false")}, '${param.match_date}')
                                 </sql:update>
 
+                                <jsp:forward page="CreateMatches.jsp"/>
+
                             </c:otherwise>
 
                         </c:choose>
