@@ -107,7 +107,7 @@
 
                                                             <c:when test="${isEmailTaken eq 'true'}">
                                                                 <jsp:forward page="Register.jsp">
-                                                                    <jsp:param name="registerErrorMsg" value="Már regisztrálc E-Mail cím!"/>
+                                                                    <jsp:param name="registerErrorMsg" value="Már regisztrált E-Mail cím!"/>
                                                                 </jsp:forward>
                                                             </c:when>
 

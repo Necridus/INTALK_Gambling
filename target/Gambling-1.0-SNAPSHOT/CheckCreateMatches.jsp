@@ -19,6 +19,20 @@
     password="123"
 />
 
+<% if (session.getAttribute("validUser") == null) { %>
+<jsp:forward page="Login.jsp">
+    <jsp:param name="loginErrorMsg" value="A mérkőzések kezeléséhez jelentkezz be!"/>
+</jsp:forward>
+<% } %>
+
+<%
+    if (session.getAttribute("isAdmin") == null || session.getAttribute("isAdmin").toString().equals("false")) { %>
+<jsp:forward page="Login.jsp">
+    <jsp:param name="loginErrorMsg" value="Nem megfelelő jogosultsággal próbáltál belépni!"/>
+</jsp:forward>
+<% }
+%>
+
 <html>
 <head>
     <title>Mérkőzések</title>
@@ -68,7 +82,7 @@
 
                     <c:otherwise>
                         <jsp:forward page="CreateMatches.jsp">
-                            <jsp:param name="matchesErrorMsg" value="Kérem adjon meg minden szükséges információt!"/>
+                            <jsp:param name="matchesErrorMsg" value="Kérlek, adj meg minden szükséges információt!"/>
                         </jsp:forward>
                     </c:otherwise>
 
